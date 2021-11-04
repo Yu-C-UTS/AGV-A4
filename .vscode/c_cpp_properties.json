@@ -201,8 +201,8 @@
                 "E:\\Unreal Engine\\UE_4.24\\Engine\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\ClothingSystemRuntimeInterface",
                 "E:\\Unreal Engine\\UE_4.24\\Engine\\Source\\Runtime\\ClothingSystemRuntimeInterface\\Public",
                 "E:\\Unreal Engine\\UE_4.24\\Engine\\Source\\Runtime\\AudioMixerCore\\Public",
-                "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\StationCaptured",
-                "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Source",
+                "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Intermediate\\Build\\Win64\\UE4Editor\\Inc\\StationCaptured",
+                "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Source",
                 "E:\\Unreal Engine\\UE_4.24\\Engine\\Source\\ThirdParty\\PhysX3\\PxShared\\include",
                 "E:\\Unreal Engine\\UE_4.24\\Engine\\Source\\ThirdParty\\PhysX3\\PxShared\\include\\cudamanager",
                 "E:\\Unreal Engine\\UE_4.24\\Engine\\Source\\ThirdParty\\PhysX3\\PxShared\\include\\filebuf",
@@ -539,7 +539,7 @@
                 "STATIONCAPTURED_VTABLE=DLLEXPORT_VTABLE",
                 "STATIONCAPTURED_API="
             ],
-            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30037/bin/Hostx64/x64/cl.exe",
+            "compilerPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.29.30037\\bin\\Hostx64\\x64\\cl.exe",
             "cStandard": "c17",
             "cppStandard": "c++17"
         }

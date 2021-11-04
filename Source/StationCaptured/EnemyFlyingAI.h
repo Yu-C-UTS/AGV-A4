@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PlayerUnitCore.h"
 #include "UnitCore.h"
 #include "EnemyFlyingAI.generated.h"
 
@@ -36,8 +37,8 @@ public:
 	// UPROPERTY(EditAnywhere)
 	// int32 MaxHealth;
 
-	UPROPERTY(EditAnywhere)
-	AUnitCore* UnitToChase;
+	UPROPERTY(EditAnywhere, BluePrintReadWrite)
+	APlayerUnitCore* UnitToChase;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AActor> Bullet;
@@ -49,6 +50,11 @@ public:
 	AEnemyFlyingAI* Ally;
 
 private:
+	UFUNCTION(BlueprintCallable)
+	void GetAnotherPlayer();
+
+	UFUNCTION(BlueprintCallable)
+	void Patrol();
 
 	UFUNCTION(BlueprintCallable)
 	bool CanSeePlayer();

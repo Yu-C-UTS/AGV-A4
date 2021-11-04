@@ -5,7 +5,7 @@
 			"name": "StationCaptured (Debug)",
 			"request": "launch",
 			"preLaunchTask": "StationCaptured Win64 Debug Build",
-			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Binaries\\Win64\\UE4-Win64-Debug.exe",
+			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Binaries\\Win64\\UE4-Win64-Debug.exe",
 			"args": [
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
@@ -18,7 +18,7 @@
 			"name": "StationCaptured (DebugGame)",
 			"request": "launch",
 			"preLaunchTask": "StationCaptured Win64 DebugGame Build",
-			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Binaries\\Win64\\UE4-Win64-DebugGame.exe",
+			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Binaries\\Win64\\UE4-Win64-DebugGame.exe",
 			"args": [
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
@@ -31,7 +31,7 @@
 			"name": "StationCaptured (Development)",
 			"request": "launch",
 			"preLaunchTask": "StationCaptured Win64 Development Build",
-			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Binaries\\Win64\\UE4.exe",
+			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Binaries\\Win64\\UE4.exe",
 			"args": [
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
@@ -44,7 +44,7 @@
 			"name": "StationCaptured (Shipping)",
 			"request": "launch",
 			"preLaunchTask": "StationCaptured Win64 Shipping Build",
-			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Binaries\\Win64\\UE4-Win64-Shipping.exe",
+			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Binaries\\Win64\\UE4-Win64-Shipping.exe",
 			"args": [
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
@@ -57,7 +57,7 @@
 			"name": "StationCaptured (Test)",
 			"request": "launch",
 			"preLaunchTask": "StationCaptured Win64 Test Build",
-			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\Binaries\\Win64\\UE4-Win64-Test.exe",
+			"program": "D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\Binaries\\Win64\\UE4-Win64-Test.exe",
 			"args": [
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
@@ -72,7 +72,7 @@
 			"preLaunchTask": "StationCapturedEditor Win64 Debug Build",
 			"program": "E:\\Unreal Engine\\UE_4.24\\Engine\\Binaries\\Win64\\UE4Editor-Win64-Debug.exe",
 			"args": [
-				"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\StationCaptured.uproject"
+				"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\StationCaptured.uproject"
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
 			"stopAtEntry": false,
@@ -86,7 +86,7 @@
 			"preLaunchTask": "StationCapturedEditor Win64 DebugGame Build",
 			"program": "E:\\Unreal Engine\\UE_4.24\\Engine\\Binaries\\Win64\\UE4Editor-Win64-DebugGame.exe",
 			"args": [
-				"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\StationCaptured.uproject"
+				"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\StationCaptured.uproject"
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
 			"stopAtEntry": false,
@@ -100,7 +100,7 @@
 			"preLaunchTask": "StationCapturedEditor Win64 Development Build",
 			"program": "E:\\Unreal Engine\\UE_4.24\\Engine\\Binaries\\Win64\\UE4Editor.exe",
 			"args": [
-				"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\StationCaptured.uproject"
+				"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\StationCaptured.uproject"
 			],
 			"cwd": "E:\\Unreal Engine\\UE_4.24",
 			"stopAtEntry": false,
@@ -117,7 +117,7 @@
 			"args": [
 				"-projectfiles",
 				"-vscode",
-				"-project=\"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\StationCaptured\\StationCaptured\\StationCaptured.uproject\"",
+				"-project=\"D:\\UTS\\Year 3\\Sem2\\Adv Games Programming\\Cheng and me\\AGV-A4\\StationCaptured.uproject\"",
 				"-game",
 				"-engine"
 			],

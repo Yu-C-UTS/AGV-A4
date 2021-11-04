@@ -17,6 +17,23 @@
 
 //FVector::Dist returns the Distance between 2 vector points
 
+void AEnemyFlyingAI::GetAnotherPlayer()
+{
+	if(UnitToChase == nullptr)
+	{
+	}
+}
+
+void AEnemyFlyingAI::Patrol()
+{
+	if(SpawnedHive)
+	{
+	FVector LocationAwayFromHive(FGenericPlatformMath::FRand() * (-DistanceAway), FGenericPlatformMath::FRand() * (-DistanceAway), 350.0f);
+	FVector DistanceToHive = (SpawnedHive->GetActorLocation() + LocationAwayFromHive) - GetActorLocation();
+	AddMovementInput(DistanceToHive);
+	}
+}
+
 bool AEnemyFlyingAI::CanSeePlayer()
 {
 	if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) > 3000.0f)
@@ -65,15 +82,21 @@ void AEnemyFlyingAI::Fire()
 //SpawnedHive is the Hive reference Actor
 void AEnemyFlyingAI::TeleportToHive()
 {
-	TeleportTo(SpawnedHive->GetActorLocation(), SpawnedHive->GetActorRotation());
+	if(SpawnedHive)
+	{
+		TeleportTo(SpawnedHive->GetActorLocation(), SpawnedHive->GetActorRotation());
+	}
 }
 
 //return bIsRally = true if Ally can see the player
 bool AEnemyFlyingAI::IsRally()
 {
-	if (Ally->CanSeePlayer())
+	if(Ally)
 	{
+		if (Ally->CanSeePlayer())
+		{
 		bIsRally = true;
+		}
 	}
 	else bIsRally = false;
 	return bIsRally;
@@ -82,8 +105,14 @@ bool AEnemyFlyingAI::IsRally()
 void AEnemyFlyingAI::TeleportToAlly()
 {
 	{
+		if(Ally)
+		{
 		SetActorLocation(Ally->GetActorLocation() + (-100.0f,-100.0f,-100.0f));
 		SetActorRotation(Ally->GetActorRotation());
+		bIsRally = false;
+		}
+		else TeleportToHive();
+		bIsRally = false;
 	}
 }
 
@@ -108,8 +137,10 @@ void AEnemyFlyingAI::DealDamage()
 
 void AEnemyFlyingAI::Dead()
 {
-	if (Health < 0)
+	if (Health < 0.01f)
 	{
+		bIsRally = false;
+		bCanSeePlayer = false;
 		GetWorld()->DestroyActor(this);
 	}
 }

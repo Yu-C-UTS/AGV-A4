@@ -1,10 +1,9 @@
 {
 	"files.exclude": {
-		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/StationCaptured/StationCaptured/.vs": true,
-		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/StationCaptured/StationCaptured/.vscode": true,
-		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/StationCaptured/StationCaptured/AGV-A4": true,
-		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/StationCaptured/StationCaptured/Content": true,
-		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/StationCaptured/StationCaptured/Intermediate": true,
-		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/StationCaptured/StationCaptured/Saved": true
+		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/AGV-A4/.git": true,
+		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/AGV-A4/.vscode": true,
+		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/AGV-A4/Content": true,
+		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/AGV-A4/Intermediate": true,
+		"D:/UTS/Year 3/Sem2/Adv Games Programming/Cheng and me/AGV-A4/Saved": true
 	}
 }
