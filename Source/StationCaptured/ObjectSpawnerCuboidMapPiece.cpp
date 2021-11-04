@@ -24,7 +24,7 @@ void AObjectSpawnerCuboidMapPiece::Initialize()
 	for (int i = 0; i < SpawnNum; i++)
 	{
 		FVector SpawnLocation = UKismetMathLibrary::RandomPointInBoundingBox(GetActorLocation(), FVector(SpawnVolumeLength/2));
-		AMapObject* SpawnedObject = GetWorld()->SpawnActor<AMapObject>(SpawnableObjects[FMath::RandRange(0, SpawnableObjects.Num() - 1)], SpawnLocation, UKismetMathLibrary::RandomRotator());
+		AMapObject* SpawnedObject = GetWorld()->SpawnActor<AMapObject>(SpawnableObjects[FMath::RandRange(0, SpawnableObjects.Num() - 1)], SpawnLocation, UKismetMathLibrary::RandomRotator(true));
 
 	}
 }
