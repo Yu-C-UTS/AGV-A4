@@ -3,6 +3,11 @@
 
 #include "HealthComponent.h"
 
+UHealthComponent::UHealthComponent()
+{
+	MaxHealth = 100;
+}
+
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -10,9 +15,9 @@ void UHealthComponent::BeginPlay()
 	CurrentHealth = MaxHealth;
 }
 
-void UHealthComponent::Damage(float damageValue)
+void UHealthComponent::Damage(float DamageValue)
 {
-	CurrentHealth -= damageValue;
+	CurrentHealth -= DamageValue;
 
 	if (CurrentHealth <= 0)
 	{
@@ -22,5 +27,5 @@ void UHealthComponent::Damage(float damageValue)
 
 float UHealthComponent::GetCurrentHealthPercentage()
 {
-	return CurrentHealth/MaxHealth;
+	return FMath::Max(0.0f, CurrentHealth) / MaxHealth * 100;
 }

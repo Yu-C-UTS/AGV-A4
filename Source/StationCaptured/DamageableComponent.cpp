@@ -32,7 +32,7 @@ void UDamageableComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	// ...
 }
 
-void UDamageableComponent::Damage(float damageValue)
+void UDamageableComponent::Damage(float DamageValue)
 {
 }
 

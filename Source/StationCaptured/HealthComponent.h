@@ -14,6 +14,9 @@ class STATIONCAPTURED_API UHealthComponent : public UDamageableComponent
 {
 	GENERATED_BODY()
 	
+public:
+	UHealthComponent();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -21,11 +24,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	float MaxHealth;
 
-private:
+protected:
 	float CurrentHealth;
 
 public:
-	virtual void Damage(float damageValue) override;
+	virtual void Damage(float DamageValue) override;
 	float GetCurrentHealthPercentage();
 
 public:
