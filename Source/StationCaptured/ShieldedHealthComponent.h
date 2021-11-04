@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup = (Damagable), meta = (BlueprintSpawnableComponent))
 class STATIONCAPTURED_API UShieldedHealthComponent : public UHealthComponent
 {
 	GENERATED_BODY()

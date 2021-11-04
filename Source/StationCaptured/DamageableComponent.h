@@ -7,7 +7,7 @@
 #include "DamageableComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Damagable), meta=(BlueprintSpawnableComponent) )
 class STATIONCAPTURED_API UDamageableComponent : public UActorComponent
 {
 	GENERATED_BODY()
