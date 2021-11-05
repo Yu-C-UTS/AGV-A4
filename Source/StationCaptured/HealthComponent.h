@@ -30,18 +30,17 @@ protected:
 
 public:
 	virtual void Damage(float DamageValue) override;
-	float GetCurrentHealthPercentage();
-
-public:
 	UFUNCTION(BlueprintCallable)
-	float HealthPercentageTest();
+	float GetCurrentHealthPercentage();
 
 public:
 	//UFUNCTION(BlueprintImplementableEvent)
 	//void OnDeath();
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEmptyDelegateSignature);
 	UPROPERTY(BlueprintAssignable, Category = "Health")
-	FOnDeath OnDeath;
+	FEmptyDelegateSignature OnDeath;
 
-
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOneFloatDelegateSignature, float, Value);
+	UPROPERTY(BlueprintAssignable, Category = "Health")
+	FOneFloatDelegateSignature OnHealthDamage;
 };

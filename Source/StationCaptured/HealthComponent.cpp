@@ -18,6 +18,10 @@ void UHealthComponent::BeginPlay()
 void UHealthComponent::Damage(float DamageValue)
 {
 	CurrentHealth -= DamageValue;
+	if (OnHealthDamage.IsBound())
+	{
+		OnHealthDamage.Broadcast(DamageValue);
+	}
 
 	if (CurrentHealth <= 0)
 	{
@@ -31,9 +35,4 @@ void UHealthComponent::Damage(float DamageValue)
 float UHealthComponent::GetCurrentHealthPercentage()
 {
 	return FMath::Max(0.0f, CurrentHealth) / MaxHealth * 100;
-}
-
-float UHealthComponent::HealthPercentageTest()
-{
-	return CurrentHealth / MaxHealth;
 }
