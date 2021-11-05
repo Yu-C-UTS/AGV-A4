@@ -21,7 +21,10 @@ void UHealthComponent::Damage(float DamageValue)
 
 	if (CurrentHealth <= 0)
 	{
-		OnDeath();
+		if (OnDeath.IsBound())
+		{
+			OnDeath.Broadcast();
+		}
 	}
 }
 
