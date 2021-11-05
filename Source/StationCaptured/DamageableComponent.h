@@ -25,5 +25,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
+	UFUNCTION(BlueprintCallable)
 	virtual void Damage(float DamageValue);
 };
