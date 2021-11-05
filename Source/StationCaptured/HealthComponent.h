@@ -32,6 +32,9 @@ public:
 	float GetCurrentHealthPercentage();
 
 public:
-	UFUNCTION(BlueprintImplementableEvent)
-	void OnDeath();
+	//UFUNCTION(BlueprintImplementableEvent)
+	//void OnDeath();
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
+	UPROPERTY(BlueprintAssignable, Category = "Health")
+	FOnDeath OnDeath;
 };

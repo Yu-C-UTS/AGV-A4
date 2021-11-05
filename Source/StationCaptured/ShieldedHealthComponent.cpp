@@ -67,7 +67,10 @@ void UShieldedHealthComponent::Damage(float DamageValue)
 	CurrentHealth -= ActiveDamage;
 	if (CurrentHealth <= 0)
 	{
-		OnDeath();
+		if (OnDeath.IsBound())
+		{
+			OnDeath.Broadcast();
+		}
 	}
 }
 
