@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MapPiece.generated.h"
+#include "MapObject.generated.h"
 
 UCLASS()
-class STATIONCAPTURED_API AMapPiece : public AActor
+class STATIONCAPTURED_API AMapObject : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMapPiece();
+	AMapObject();
 
 protected:
 	// Called when the game starts or when spawned
@@ -23,10 +23,4 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-public:
-	virtual void Initialize();
-
-protected:
-	UFUNCTION(BlueprintImplementableEvent)
-	void BPInitialize();
 };
