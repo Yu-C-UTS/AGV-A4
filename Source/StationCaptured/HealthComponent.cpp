@@ -32,3 +32,8 @@ float UHealthComponent::GetCurrentHealthPercentage()
 {
 	return FMath::Max(0.0f, CurrentHealth) / MaxHealth * 100;
 }
+
+float UHealthComponent::HealthPercentageTest()
+{
+	return CurrentHealth / MaxHealth;
+}

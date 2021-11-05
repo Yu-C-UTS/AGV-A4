@@ -25,6 +25,7 @@ public:
 	float MaxHealth;
 
 protected:
+	UPROPERTY(BlueprintReadWrite)
 	float CurrentHealth;
 
 public:
@@ -32,9 +33,15 @@ public:
 	float GetCurrentHealthPercentage();
 
 public:
+	UFUNCTION(BlueprintCallable)
+	float HealthPercentageTest();
+
+public:
 	//UFUNCTION(BlueprintImplementableEvent)
 	//void OnDeath();
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnDeath);
 	UPROPERTY(BlueprintAssignable, Category = "Health")
 	FOnDeath OnDeath;
+
+
 };

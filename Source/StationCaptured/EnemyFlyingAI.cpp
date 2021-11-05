@@ -117,33 +117,33 @@ void AEnemyFlyingAI::TeleportToAlly()
 }
 
 // Will be used then teleport to Hive
-void AEnemyFlyingAI::Healing()
-{
-	if (Health < 100)
-	{
-		Health += 1;
-	}
-}
+// void AEnemyFlyingAI::Healing()
+// {
+// 	if (Health < 100)
+// 	{
+// 		Health += 1;
+// 	}
+// }
 
-void AEnemyFlyingAI::TakeDamage()
-{
+// void AEnemyFlyingAI::TakeDamage()
+// {
 
-}
+// }
 
-void AEnemyFlyingAI::DealDamage()
-{
+// void AEnemyFlyingAI::DealDamage()
+// {
 	
-}
+// }
 
-void AEnemyFlyingAI::Dead()
-{
-	if (Health < 0.01f)
-	{
-		bIsRally = false;
-		bCanSeePlayer = false;
-		GetWorld()->DestroyActor(this);
-	}
-}
+// void AEnemyFlyingAI::Dead()
+// {
+// 	if (Health < 0.01f)
+// 	{
+// 		bIsRally = false;
+// 		bCanSeePlayer = false;
+// 		GetWorld()->DestroyActor(this);
+// 	}
+// }
 
 
 

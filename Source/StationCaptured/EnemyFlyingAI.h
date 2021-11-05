@@ -31,8 +31,8 @@ public:
 	// UPROPERTY(EditAnywhere, BluePrintReadWrite)
 	// float Damage;
 
-	UPROPERTY(EditAnywhere, BluePrintReadWrite)
-	float Health = 100.0f;
+	// UPROPERTY(EditAnywhere, BluePrintReadWrite)
+	// float Health = 100.0f;
 
 	// UPROPERTY(EditAnywhere)
 	// int32 MaxHealth;
@@ -77,17 +77,17 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void TeleportToAlly();
 
-	UFUNCTION(BlueprintCallable)
-	void Healing();
+	// UFUNCTION(BlueprintCallable)
+	// void Healing();
 
-	UFUNCTION(BlueprintCallable)
-	void TakeDamage();
+	// UFUNCTION(BlueprintCallable)
+	// void TakeDamage();
 
-	UFUNCTION(BlueprintCallable)
-	void DealDamage();
+	// UFUNCTION(BlueprintCallable)
+	// void DealDamage();
 
-	UFUNCTION(BlueprintCallable)
-	void Dead();
+	// UFUNCTION(BlueprintCallable)
+	// void Dead();
 
 
 

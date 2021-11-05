@@ -40,9 +40,12 @@ protected:
 
 public:
 	virtual void Damage(float DamageValue) override;
+	
 	float GetCurrentShieldPercentage();
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnShieldBreak();
+	UFUNCTION(BlueprintCallable)
+	float ShieldPercentageTest();
 };

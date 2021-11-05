@@ -78,3 +78,8 @@ float UShieldedHealthComponent::GetCurrentShieldPercentage()
 {
 	return FMath::Max(0.0f, CurrentShield) / MaxShield * 100;
 }
+
+float UShieldedHealthComponent::ShieldPercentageTest()
+{
+	return CurrentShield / MaxShield;
+}
