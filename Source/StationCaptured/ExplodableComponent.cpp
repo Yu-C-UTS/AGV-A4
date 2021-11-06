@@ -46,7 +46,7 @@ void UExplodableComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 // 	}
 // }
 
-void UExplodableComponent::Explode()
+void UExplodableComponent::Explode(USphereComponent* SphereCollider)
 {
 	// SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollider"));
 	// SphereCollider->SetSphereRadius(ExplosiveDamageRadius, true);
@@ -61,6 +61,7 @@ void UExplodableComponent::Explode()
 	// }
 
 	//EXPLODEEEE
+	SphereCollider->SetSphereRadius(ExplosiveDamageRadius, true);
 	SphereCollider->GetOverlappingActors(OverllapingActors);
 	for(int i = 0; i < OverllapingActors.Num(); i++)
 	{

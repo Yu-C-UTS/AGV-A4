@@ -33,8 +33,8 @@ public:
 public:
 	//Sphere Collider for Explode() Function
 	// UPROPERTY(BlueprintReadWrite)
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    USphereComponent* SphereCollider;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // USphereComponent* SphereCollider;
 
 	
 	// UPROPERTY(EditAnywhere)
@@ -48,7 +48,7 @@ public:
 	// virtual void Damage(float DamageValue);
 
 	UFUNCTION(BlueprintCallable)
-	virtual void Explode();
+	virtual void Explode(USphereComponent* SphereCollider);
 
 public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEmptyDelegateSignature);
