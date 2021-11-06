@@ -31,7 +31,7 @@ protected:
 public:
 	virtual void Damage(float DamageValue) override;
 	UFUNCTION(BlueprintCallable)
-	float GetCurrentHealthPercentage();
+	virtual float GetCurrentHealthPercentage();
 
 public:
 	//UFUNCTION(BlueprintImplementableEvent)
