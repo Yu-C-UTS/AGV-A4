@@ -17,6 +17,10 @@ void UHealthComponent::BeginPlay()
 
 void UHealthComponent::Damage(float DamageValue)
 {
+	if(CurrentHealth <= 0)
+	{
+		return;
+	}
 	CurrentHealth -= DamageValue;
 	if (OnHealthDamage.IsBound())
 	{

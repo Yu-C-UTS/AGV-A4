@@ -50,6 +50,9 @@ public:
 	AEnemyFlyingAI* Ally;
 
 private:
+	const float FollowingDistance = 3000.0f;
+	const float SightDistance = 2000.0f;
+
 	UFUNCTION(BlueprintCallable)
 	void GetAnotherPlayer();
 

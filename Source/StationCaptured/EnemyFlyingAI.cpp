@@ -36,13 +36,16 @@ void AEnemyFlyingAI::Patrol()
 
 bool AEnemyFlyingAI::CanSeePlayer()
 {
-	if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) > 3000.0f)
+	if(UnitToChase)
 	{
+		if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) > FollowingDistance)
+		{
 		bCanSeePlayer = false;
-	}
-	else if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) < 1250.0f)
-	{
+		}
+		else if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) < SightDistance)
+		{
 		bCanSeePlayer = true;
+		}
 	}
 	return bCanSeePlayer;
 }
@@ -52,18 +55,24 @@ bool AEnemyFlyingAI::CanSeePlayer()
 
 void AEnemyFlyingAI::ChasePlayer()
 {
+	if(UnitToChase)
+	{
 	FVector LocationAwayFromUnit(FGenericPlatformMath::FRand() * DistanceAway, FGenericPlatformMath::FRand() * DistanceAway, FGenericPlatformMath::FRand() * Height);
 	FVector DistanceToUnit = (UnitToChase->GetActorLocation() + LocationAwayFromUnit) - GetActorLocation();
 	AddMovementInput(DistanceToUnit);
+	}
 }
 
 //PlayerLoc returns the rotation to look at the player
 
 void AEnemyFlyingAI::LookAtPlayer()
 {
+	if(UnitToChase)
+	{
 	FRotator PlayerLoc = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), UnitToChase->GetActorLocation());
 	FRotator Rotation = FMath::RInterpTo(GetActorRotation(), PlayerLoc, UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 20.0);
 	SetActorRotation(Rotation);
+	}
 }
 
 //SpawnRot returns the rotation to look at the player
