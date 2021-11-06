@@ -71,7 +71,7 @@ void AHive::ChildUnitCheck()
 	}
 	for (int i = ActiveChildUnits.Num() - 1; i >= 0; i--)
 	{
-		if (!ActiveChildUnits[i])
+		if (!IsValid(ActiveChildUnits[i]))
 		{
 			ActiveChildUnits.RemoveAt(i);
 		}
