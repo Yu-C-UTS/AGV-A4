@@ -65,14 +65,7 @@ void UShieldedHealthComponent::Damage(float DamageValue)
 	}
 
 	//Do damage to health
-	CurrentHealth -= ActiveDamage;
-	if (CurrentHealth <= 0)
-	{
-		if (OnDeath.IsBound())
-		{
-			OnDeath.Broadcast();
-		}
-	}
+	Super::Damage(ActiveDamage);
 }
 
 float UShieldedHealthComponent::GetCurrentShieldPercentage()

@@ -24,20 +24,23 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	float SpawnInterval;
-	
-	UPROPERTY(EditAnywhere)
-	int MaximumSpawn;
-
-	UPROPERTY(BlueprintReadWrite)
-	int ActiveSpawn;
-
+public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AEnemyFlyingAI> EnemyToSpawn;
+	UPROPERTY(EditAnywhere)
+	float SpawnInterval;
+	UPROPERTY(EditAnywhere)
+	int MaximumSpawn;
+	UPROPERTY(BlueprintReadWrite)
+	USceneComponent* SpawnPointOverride;
 
-	UFUNCTION(BlueprintCallable)
-	void SpawnEnemy(float DeltaSeconds);
 
+private:
+	float SpawnCooldown;
 
+	UPROPERTY(VisibleAnywhere)
+	TArray<AEnemyFlyingAI*> ActiveChildUnits;
+
+	void TickSpawnUnit(float DeltaSeconds);
+	void ChildUnitCheck();
 };

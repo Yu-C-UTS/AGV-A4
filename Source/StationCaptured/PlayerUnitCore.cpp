@@ -3,7 +3,6 @@
 
 #include "PlayerUnitCore.h"
 #include "Net/UnrealNetwork.h"
-#include "Engine/GameEngine.h"
 #include "Engine/World.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"

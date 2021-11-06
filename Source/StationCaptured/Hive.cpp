@@ -3,6 +3,7 @@
 
 #include "Hive.h"
 #include "Engine/World.h"
+#include "Engine/GameEngine.h"
 
 // Sets default values
 AHive::AHive()
@@ -17,35 +18,70 @@ AHive::AHive()
 void AHive::BeginPlay()
 {
 	Super::BeginPlay();
-	ActiveSpawn = 0;
+
+	SpawnCooldown = SpawnInterval;
 }
 
 // Called every frame
 void AHive::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (!HasAuthority())
+	{
+		//Don't bother ticking the rest if this is not the server
+		return;
+	}
+
+	ChildUnitCheck();
+	TickSpawnUnit(DeltaTime);
 }
 
-void AHive::SpawnEnemy(float DeltaTime)
+void AHive::TickSpawnUnit(float DeltaTime)
 {
 	AEnemyFlyingAI* SpawnedEnemy;
 	//Countdown for spawn
-	if(SpawnInterval > 0)
+	if(SpawnCooldown > 0)
 	{
-		SpawnInterval -= DeltaTime;
+		SpawnCooldown -= DeltaTime;
 		return;
 	}
 
 	//Spawn the enemy
-	if(SpawnInterval <= 0)
+	if(ActiveChildUnits.Num() < MaximumSpawn)
 	{
-		if(ActiveSpawn < MaximumSpawn)
+		SpawnedEnemy = GetWorld()->SpawnActor<AEnemyFlyingAI>(EnemyToSpawn, SpawnPointOverride ? SpawnPointOverride->GetComponentLocation() : GetActorLocation(), GetActorRotation());
+		if (!SpawnedEnemy)
 		{
-		SpawnedEnemy = GetWorld()->SpawnActor<AEnemyFlyingAI>(EnemyToSpawn, GetActorLocation(), GetActorRotation());
+			//Spawn failed, return and retry next tick
+			return;
+		}
+
 		SpawnedEnemy->SpawnedHive = this;
-		SpawnInterval = 5.0f;
-		ActiveSpawn += 1;
+		ActiveChildUnits.Add(SpawnedEnemy);
+		SpawnCooldown = SpawnInterval;
+	}
+}
+
+void AHive::ChildUnitCheck()
+{
+	if (ActiveChildUnits.Num() <= 0)
+	{
+		return;
+	}
+	for (int i = ActiveChildUnits.Num() - 1; i >= 0; i--)
+	{
+		if (!ActiveChildUnits[i])
+		{
+			ActiveChildUnits.RemoveAt(i);
 		}
 	}
+	//for (AEnemyFlyingAI* ChildUnit : ActiveChildUnits)
+	//{
+	//	if (!ChildUnit)
+	//	{
+	//		ActiveChildUnits.Remove(ChildUnit);
+	//	}
+	//}
 }
 
