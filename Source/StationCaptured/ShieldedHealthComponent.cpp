@@ -2,6 +2,7 @@
 
 
 #include "ShieldedHealthComponent.h"
+#include "Net/UnrealNetwork.h"
 
 UShieldedHealthComponent::UShieldedHealthComponent()
 {
@@ -77,5 +78,12 @@ void UShieldedHealthComponent::Damage(float DamageValue)
 float UShieldedHealthComponent::GetCurrentShieldPercentage()
 {
 	return FMath::Max(0.0f, CurrentShield) / MaxShield * 100;
+}
+
+void UShieldedHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UShieldedHealthComponent, CurrentShield);
 }
 

@@ -2,6 +2,8 @@
 
 
 #include "PlayerUnitCore.h"
+#include "Net/UnrealNetwork.h"
+#include "Engine/GameEngine.h"
 #include "Engine/World.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
@@ -11,7 +13,7 @@ APlayerUnitCore::APlayerUnitCore()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	//AutoPossessPlayer = EAutoReceiveInput::Player0;
 
 	MaxSpeed = 1000.0f;
 	Acceleration = 600.0f;
@@ -22,7 +24,7 @@ void APlayerUnitCore::BeginPlay()
 {
 	Super::BeginPlay();
 
-	camera = FindComponentByClass<UCameraComponent>();
+	Camera = FindComponentByClass<UCameraComponent>();
 
 	UFloatingPawnMovement* floatingPawnMovement = FindComponentByClass<UFloatingPawnMovement>();
 	floatingPawnMovement->MaxSpeed = MaxSpeed;
@@ -31,8 +33,10 @@ void APlayerUnitCore::BeginPlay()
 	bIsBreaking = false;
 }
 
-void APlayerUnitCore::Tick(float DeltaSeconds)
+void APlayerUnitCore::Tick(float DeltaTime)
 {
+	Super::Tick(DeltaTime);
+
 }
 
 void APlayerUnitCore::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -62,7 +66,9 @@ void APlayerUnitCore::Forward(float Value)
 	//	return;
 	//}
 	//CurrentSpeed = FMath::Clamp(CurrentSpeed + Acceleration * Value * GetWorld()->GetDeltaSeconds(), -MaxSpeed, MaxSpeed);
-	GetMovementComponent()->AddInputVector(GetActorForwardVector() * Value);
+	AddMovementInput(GetActorForwardVector(), Value);
+	ServerMove(GetActorLocation());
+	//GetMovementComponent()->AddInputVector(GetActorForwardVector() * Value);
 }
 
 void APlayerUnitCore::Strafe(float Value)
@@ -72,7 +78,9 @@ void APlayerUnitCore::Strafe(float Value)
 	//	return;
 	//}
 	//CurrentSpeed = FMath::Clamp(CurrentSpeed + Acceleration * Value * GetWorld()->GetDeltaSeconds(), -MaxSpeed, MaxSpeed);
-	GetMovementComponent()->AddInputVector(GetActorRightVector() * Value);
+	AddMovementInput(GetActorRightVector(), Value);
+	ServerMove(GetActorLocation());
+	//GetMovementComponent()->AddInputVector(GetActorRightVector() * Value);
 }
 
 void APlayerUnitCore::Up(float Value)
@@ -82,22 +90,27 @@ void APlayerUnitCore::Up(float Value)
 	//	return;
 	//}
 	//CurrentSpeed = FMath::Clamp(CurrentSpeed + Acceleration * Value * GetWorld()->GetDeltaSeconds(), -MaxSpeed, MaxSpeed);
-	GetMovementComponent()->AddInputVector(GetActorUpVector() * Value);
+	AddMovementInput(GetActorUpVector(), Value);
+	ServerMove(GetActorLocation());
+	//GetMovementComponent()->AddInputVector(GetActorUpVector() * Value);
 }
 
 void APlayerUnitCore::Pitch(float Value)
 {
 	AddActorLocalRotation(FRotator(Value, 0.0f, 0.0f));
+	ServerRotate(GetActorRotation());
 }
 
 void APlayerUnitCore::Yaw(float Value)
 {
 	AddActorLocalRotation(FRotator(0.0f, Value, 0.0f));
+	ServerRotate(GetActorRotation());
 }
 
 void APlayerUnitCore::Roll(float Value)
 {
 	AddActorLocalRotation(FRotator(0.0f, 0.0f, Value));
+	ServerRotate(GetActorRotation());
 }
 
 void APlayerUnitCore::BreakToggle()
@@ -124,6 +137,16 @@ void APlayerUnitCore::BreakEnd()
 	UFloatingPawnMovement* floatingPawnMovement = FindComponentByClass<UFloatingPawnMovement>();
 	floatingPawnMovement->Deceleration = 0;
 	bIsBreaking = false;
+}
+
+void APlayerUnitCore::ServerMove_Implementation(FVector NewLocation)
+{
+	SetActorLocation(NewLocation);
+}
+
+void APlayerUnitCore::ServerRotate_Implementation(FRotator NewRotation)
+{
+	SetActorRotation(NewRotation);
 }
 
 // void APlayerUnitCore::Attack()

@@ -34,6 +34,7 @@ public:
 	bool bOverflowShieldDamageToHealth;
 
 protected:
+	UPROPERTY(Replicated)
 	float CurrentShield;
 	float CurrentRechargeCooldown;
 	void TickRechargeShield(float DeltaTime);
@@ -43,7 +44,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentShieldPercentage();
 
-public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnShieldBreak();
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };

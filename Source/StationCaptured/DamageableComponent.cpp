@@ -11,6 +11,7 @@ UDamageableComponent::UDamageableComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
+	SetIsReplicated(true);
 }
 
 

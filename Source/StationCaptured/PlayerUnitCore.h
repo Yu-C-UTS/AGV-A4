@@ -24,13 +24,13 @@ protected:
 
 public:
 	// Called every frame
-	virtual void Tick(float DeltaSeconds) override;
+	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	UCameraComponent* camera;
+	UCameraComponent* Camera;
 
 public:
 	UPROPERTY(VisibleAnywhere)
@@ -54,4 +54,10 @@ private:
 	void BreakStart();
 	void BreakEnd();
 	//void Attack();
+
+protected:
+	UFUNCTION(Server,Reliable)
+	void ServerMove(FVector NewLocation);
+	UFUNCTION(Server, Reliable)
+	void ServerRotate(FRotator NewRotation);
 };

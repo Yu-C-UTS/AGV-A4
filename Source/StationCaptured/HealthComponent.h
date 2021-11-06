@@ -25,7 +25,7 @@ public:
 	float MaxHealth;
 
 protected:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(Replicated, BlueprintReadWrite)
 	float CurrentHealth;
 
 public:
@@ -43,4 +43,6 @@ public:
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOneFloatDelegateSignature, float, Value);
 	UPROPERTY(BlueprintAssignable, Category = "Health")
 	FOneFloatDelegateSignature OnHealthDamage;
+
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 };
