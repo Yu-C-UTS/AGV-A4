@@ -31,14 +31,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-	//Sphere Collider for Explode() Function
-	// UPROPERTY(BlueprintReadWrite)
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    // USphereComponent* SphereCollider;
 
-	
-	// UPROPERTY(EditAnywhere)
-	// float MaxHealth;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float ExplosiveDamage;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

@@ -35,6 +35,7 @@ void AHive::Tick(float DeltaTime)
 
 	ChildUnitCheck();
 	TickSpawnUnit(DeltaTime);
+	ChildUnitGetAlly();
 }
 
 void AHive::TickSpawnUnit(float DeltaTime)
@@ -46,11 +47,11 @@ void AHive::TickSpawnUnit(float DeltaTime)
 		SpawnCooldown -= DeltaTime;
 		return;
 	}
-
+	FVector Test (500,500,500);
 	//Spawn the enemy
 	if(ActiveChildUnits.Num() < MaximumSpawn)
-	{
-		SpawnedEnemy = GetWorld()->SpawnActor<AEnemyFlyingAI>(EnemyToSpawn, SpawnPointOverride ? SpawnPointOverride->GetComponentLocation() : GetActorLocation(), GetActorRotation());
+	{ //SpawnPointOverride ? SpawnPointOverride->GetComponentLocation() : GetActorLocation()
+		SpawnedEnemy = GetWorld()->SpawnActor<AEnemyFlyingAI>(EnemyToSpawn, SpawnPointOverride->GetComponentLocation(), GetActorRotation());
 		if (!SpawnedEnemy)
 		{
 			//Spawn failed, return and retry next tick
@@ -62,6 +63,7 @@ void AHive::TickSpawnUnit(float DeltaTime)
 		SpawnCooldown = SpawnInterval;
 	}
 }
+
 
 void AHive::ChildUnitCheck()
 {
@@ -76,6 +78,25 @@ void AHive::ChildUnitCheck()
 			ActiveChildUnits.RemoveAt(i);
 		}
 	}
+}
+
+void AHive::ChildUnitGetAlly()
+{
+	for (int i = 0; i < ActiveChildUnits.Num(); i++)
+	{
+		if(ActiveChildUnits[i])
+		{
+			for (int j = 0; j < ActiveChildUnits.Num(); j++)
+			{
+				if(ActiveChildUnits[j]->CanSeePlayer())
+				{
+					ActiveChildUnits[i]->Ally = ActiveChildUnits[j];
+				}
+			}
+		}
+	}
+}
+	
 	//for (AEnemyFlyingAI* ChildUnit : ActiveChildUnits)
 	//{
 	//	if (!ChildUnit)
@@ -83,5 +104,5 @@ void AHive::ChildUnitCheck()
 	//		ActiveChildUnits.Remove(ChildUnit);
 	//	}
 	//}
-}
+
 

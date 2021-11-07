@@ -11,9 +11,8 @@ UExplodableComponent::UExplodableComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	//MaxHealth = 50.0f;
-	ExplosiveDamage = 80.0f;
-	ExplosiveDamageRadius = 500.0f;
+	ExplosiveDamage = 70.0f;
+	ExplosiveDamageRadius = 350.0f;
 	// ...
 
 }
@@ -70,6 +69,7 @@ void UExplodableComponent::Explode(USphereComponent* SphereCollider)
 			OverllapingActors[i]->FindComponentByClass<UDamageableComponent>()->Damage(ExplosiveDamage);
 		}
 	}
-	GetWorld()->DestroyActor(GetOwner());
+	//Destroy the Actor after Explode
+	//GetWorld()->DestroyActor(GetOwner());
 }
 

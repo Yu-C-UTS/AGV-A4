@@ -33,8 +33,7 @@ public:
 	int MaximumSpawn;
 	UPROPERTY(BlueprintReadWrite)
 	USceneComponent* SpawnPointOverride;
-
-
+	
 private:
 	float SpawnCooldown;
 
@@ -43,4 +42,5 @@ private:
 
 	void TickSpawnUnit(float DeltaSeconds);
 	void ChildUnitCheck();
+	void ChildUnitGetAlly();
 };

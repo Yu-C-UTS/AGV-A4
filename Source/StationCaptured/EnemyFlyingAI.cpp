@@ -10,28 +10,56 @@
 #include "Kismet/GameplayStatics.h"
 #include "Math/Vector.h"
 
-//AEnemyFlyingAI::AEnemyFlyingAI()
-//{
-//	PrimaryActorTick.bCanEverTick = true;
-//}
+AEnemyFlyingAI::AEnemyFlyingAI()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	bCanSeePlayer = false;
+	bIsRally = false;
+}
+
+void AEnemyFlyingAI::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+
+// Called every frame
+void AEnemyFlyingAI::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	// ...
+}
 
 //FVector::Dist returns the Distance between 2 vector points
 
-void AEnemyFlyingAI::GetAnotherPlayer()
+void AEnemyFlyingAI::GetAllies()
 {
-	if(UnitToChase == nullptr)
+}
+
+void AEnemyFlyingAI::GatherAboveHive()
+{
+	if(SpawnedHive)
 	{
+	FVector LocationAwayFromHive(0,0,800.0f);
+	FVector DistanceToHive = (SpawnedHive->GetActorLocation() + LocationAwayFromHive) - GetActorLocation();
+	AddMovementInput(DistanceToHive,1.0f,true);
 	}
 }
 
 void AEnemyFlyingAI::Patrol()
 {
-	if(SpawnedHive)
-	{
-	FVector LocationAwayFromHive(FGenericPlatformMath::FRand() * (-DistanceAway), FGenericPlatformMath::FRand() * (-DistanceAway), 350.0f);
-	FVector DistanceToHive = (SpawnedHive->GetActorLocation() + LocationAwayFromHive) - GetActorLocation();
-	AddMovementInput(DistanceToHive);
-	}
+	//Generate a Random Location around the Hive
+	//FVector RandomLoc = SpawnedHive->GetActorLocation();
+	FVector RandomLoc;
+ 	RandomLoc.X = FMath::FRandRange(-10, 10);
+ 	RandomLoc.Y = FMath::FRandRange(-10, 10);
+ 	RandomLoc.Z = FMath::FRandRange(-10, 10);
+
+	//Get the Direction to the RandomLoc
+	FVector DistanceToRandomLoc = RandomLoc - GetActorLocation();
+	AddMovementInput(DistanceToRandomLoc, 1.0f, true);
 }
 
 bool AEnemyFlyingAI::CanSeePlayer()
@@ -59,7 +87,7 @@ void AEnemyFlyingAI::ChasePlayer()
 	{
 	FVector LocationAwayFromUnit(FGenericPlatformMath::FRand() * DistanceAway, FGenericPlatformMath::FRand() * DistanceAway, FGenericPlatformMath::FRand() * Height);
 	FVector DistanceToUnit = (UnitToChase->GetActorLocation() + LocationAwayFromUnit) - GetActorLocation();
-	AddMovementInput(DistanceToUnit);
+	AddMovementInput(DistanceToUnit,1.0f,true);
 	}
 }
 
@@ -76,17 +104,17 @@ void AEnemyFlyingAI::LookAtPlayer()
 }
 
 //SpawnRot returns the rotation to look at the player
-void AEnemyFlyingAI::Fire()
-{
-	FRotator SpawnRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), UnitToChase->GetActorLocation());
-	if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) < 800.0f)
-	{
-		if (bCanSeePlayer) 
-		{
-			GetWorld()->SpawnActor<AActor>(Bullet, GetActorLocation(), SpawnRot);
-		}
-	}
-}
+// void AEnemyFlyingAI::Fire()
+// {
+// 	FRotator SpawnRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), UnitToChase->GetActorLocation());
+// 	if (FVector::Dist(UnitToChase->GetActorLocation(), GetActorLocation()) < 800.0f)
+// 	{
+// 		if (bCanSeePlayer) 
+// 		{
+// 			GetWorld()->SpawnActor<AActor>(Bullet, GetActorLocation(), SpawnRot);
+// 		}
+// 	}
+// }
 
 //SpawnedHive is the Hive reference Actor
 void AEnemyFlyingAI::TeleportToHive()
@@ -111,16 +139,20 @@ bool AEnemyFlyingAI::IsRally()
 	return bIsRally;
 }
 
-void AEnemyFlyingAI::TeleportToAlly()
+void AEnemyFlyingAI::GatherWithAlly()
 {
 	{
 		if(Ally)
 		{
-		SetActorLocation(Ally->GetActorLocation() + (-100.0f,-100.0f,-100.0f));
-		SetActorRotation(Ally->GetActorRotation());
-		bIsRally = false;
+		CanSeePlayer();
+		// SetActorLocation(Ally->GetActorLocation() + (-100.0f,-100.0f,-100.0f));
+		// SetActorRotation(Ally->GetActorRotation());
+		//bIsRally = false;
+		FVector DistanceToAlly = Ally->GetActorLocation() - GetActorLocation();
+		AddMovementInput(DistanceToAlly,1.0f,true);
+		//bIsRally = false;
 		}
-		else TeleportToHive();
+		else GatherAboveHive();
 		bIsRally = false;
 	}
 }

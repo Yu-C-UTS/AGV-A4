@@ -14,7 +14,18 @@ UCLASS()
 class STATIONCAPTURED_API AEnemyFlyingAI : public AUnitCore
 {
 	GENERATED_BODY()
-	
+public:	
+	// Sets default values for this actor's properties
+	AEnemyFlyingAI();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 public:
 	UPROPERTY(BluePrintReadWrite)
 	bool bCanSeePlayer;
@@ -40,8 +51,8 @@ public:
 	UPROPERTY(EditAnywhere, BluePrintReadWrite)
 	APlayerUnitCore* UnitToChase;
 
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
-	TSubclassOf<AActor> Bullet;
+	// UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	// TSubclassOf<AActor> Bullet;
 
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	AActor* SpawnedHive;
@@ -49,18 +60,22 @@ public:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
 	AEnemyFlyingAI* Ally;
 
+	UFUNCTION(BlueprintCallable)
+	bool CanSeePlayer();
+
 private:
 	const float FollowingDistance = 3000.0f;
 	const float SightDistance = 1500.0f;
 
+
 	UFUNCTION(BlueprintCallable)
-	void GetAnotherPlayer();
+	void GetAllies();
+
+	UFUNCTION(BlueprintCallable)
+	void GatherAboveHive();
 
 	UFUNCTION(BlueprintCallable)
 	void Patrol();
-
-	UFUNCTION(BlueprintCallable)
-	bool CanSeePlayer();
 
 	UFUNCTION(BlueprintCallable)
 	void ChasePlayer();
@@ -68,8 +83,8 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void LookAtPlayer();
 
-	UFUNCTION(BlueprintCallable)
-	void Fire();
+	// UFUNCTION(BlueprintCallable)
+	// void Fire();
 
 	UFUNCTION(BlueprintCallable)
 	void TeleportToHive();
@@ -78,7 +93,7 @@ private:
 	bool IsRally();
 
 	UFUNCTION(BlueprintCallable)
-	void TeleportToAlly();
+	void GatherWithAlly();
 
 	// UFUNCTION(BlueprintCallable)
 	// void Healing();
