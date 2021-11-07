@@ -20,7 +20,9 @@ AEnemyFlyingAI::AEnemyFlyingAI()
 void AEnemyFlyingAI::BeginPlay()
 {
 	Super::BeginPlay();
-
+	//GetRandomLocations();
+	
+	CurrentState = AIState::Scan;
 }
 
 
@@ -28,11 +30,49 @@ void AEnemyFlyingAI::BeginPlay()
 void AEnemyFlyingAI::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 	// ...
+	FHitResult Hit(ForceInit);
+	FCollisionQueryParams Params = FCollisionQueryParams(FName(TEXT("Trace")), true, this);
+	switch(CurrentState)
+	{
+		case AIState::Scan:
+		if(GetActorRotation() == ScanDirection)
+		{
+			//Rayscan Forward
+			bool OutHit = DoTrace(&Hit, &Params);
+			if(!OutHit)
+			{
+				//Ray End Point
+				PatrolToLocation = GetActorLocation() + (GetActorRotation().Vector() * MaxTraceDistance);
+			}
+
+			// Check for distance between the AI and its end point if far enough
+			if(FVector::Dist(PatrolToLocation, GetActorLocation()) > ObstacleAvoidDistance)
+			{
+				CurrentState = AIState::Patrol;
+				break;
+			}
+		}
+	}
 }
 
 //FVector::Dist returns the Distance between 2 vector points
+
+bool AEnemyFlyingAI::DoTrace(FHitResult* Hit, FCollisionQueryParams* Params)
+{
+	FVector Loc = GetActorLocation();
+	FRotator Rot = GetActorRotation();
+	FVector Start = Loc; 
+	FVector End = Loc + (Rot.Vector() * MaxTraceDistance);
+	Params->bTraceComplex = true;
+	//Params->bTraceAsyncScene  = true;
+	Params->bReturnPhysicalMaterial = true;
+	bool Traced = GetWorld()->LineTraceSingleByChannel
+	(
+		*Hit, Start, End, ECC_Visibility, *Params
+	);
+	return Traced;
+}
 
 void AEnemyFlyingAI::GetAllies()
 {
@@ -48,18 +88,31 @@ void AEnemyFlyingAI::GatherAboveHive()
 	}
 }
 
+// void AEnemyFlyingAI::GetRandomLocations()
+// {
+// 	for(int i = 0; i < 1000; i++)
+// 	{	//Generate 1000 random locations across the map
+// 		RandomLocations[i] = {FMath::FRandRange(20000.0f, 20000.0f), FMath::FRandRange(20000.0f, 20000.0f), FMath::FRandRange(20000.0f, 20000.0f)};
+// 	}
+// }
+
+
 void AEnemyFlyingAI::Patrol()
 {
 	//Generate a Random Location around the Hive
 	//FVector RandomLoc = SpawnedHive->GetActorLocation();
-	FVector RandomLoc;
- 	RandomLoc.X = FMath::FRandRange(-10, 10);
- 	RandomLoc.Y = FMath::FRandRange(-10, 10);
- 	RandomLoc.Z = FMath::FRandRange(-10, 10);
+ 	// RandomLoc.X = FMath::FRandRange(-10, 10);
+ 	// RandomLoc.Y = FMath::FRandRange(-10, 10);
+ 	// RandomLoc.Z = FMath::FRandRange(-10, 10);
 
-	//Get the Direction to the RandomLoc
-	FVector DistanceToRandomLoc = RandomLoc - GetActorLocation();
-	AddMovementInput(DistanceToRandomLoc, 1.0f, true);
+	// //Get the Direction to the RandomLoc
+	// for(int i = 0; i < RandomLocations.Num(); i++)
+	// {	//Get random locations every tick 
+	// FVector DistanceToRandomLocation = RandomLocations[FMath::FRandRange(0, RandomLocations.Num()-1)] - GetActorLocation();
+	// // Move towards random locations
+	// AddMovementInput(DistanceToRandomLocation, 1.0f, true);
+	// }
+
 }
 
 bool AEnemyFlyingAI::CanSeePlayer()

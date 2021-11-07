@@ -10,6 +10,15 @@
 /**
  * 
  */
+
+UENUM()
+enum class AIState : uint8
+{
+  	Scan     UMETA(DisplayName = "Scan"),
+  	Patrol      UMETA(DisplayName = "Patrol"),
+  	Attacking   UMETA(DisplayName = "Attacking"),
+};
+
 UCLASS()
 class STATIONCAPTURED_API AEnemyFlyingAI : public AUnitCore
 {
@@ -63,10 +72,28 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool CanSeePlayer();
 
+	UPROPERTY(EditAnywhere)
+	float MaxTraceDistance;
+
+	UPROPERTY(EditAnywhere)
+	float ObstacleAvoidDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIState)
+	AIState CurrentState;
+
 private:
 	const float FollowingDistance = 3000.0f;
 	const float SightDistance = 1500.0f;
+	FRotator ScanDirection;
+	int TotalScanDirectionCount;
+	int CurrentScanDirectionCount;
+	FVector PatrolToLocation;
 
+	//Ray Trace
+	bool DoTrace(FHitResult* Hit, FCollisionQueryParams* Params);
+
+	// TArray<FVector> RandomLocations;
+	// void GetRandomLocations();
 
 	UFUNCTION(BlueprintCallable)
 	void GetAllies();
