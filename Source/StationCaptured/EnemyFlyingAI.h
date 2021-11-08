@@ -84,13 +84,17 @@ public:
 private:
 	const float FollowingDistance = 3000.0f;
 	const float SightDistance = 1500.0f;
+
+	FCollisionQueryParams Params;
 	FRotator ScanDirection;
 	int TotalScanDirectionCount;
 	int CurrentScanDirectionCount;
 	FVector PatrolToLocation;
+	FRotator RotateToScanDirection;
 
 	//Ray Trace
-	bool DoTrace(FHitResult* Hit, FCollisionQueryParams* Params);
+	//bool DoTrace(FHitResult* Hit, FCollisionQueryParams* Params);
+	bool DoTrace(FHitResult TheHit);
 
 	// TArray<FVector> RandomLocations;
 	// void GetRandomLocations();

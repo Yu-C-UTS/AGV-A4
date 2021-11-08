@@ -8,13 +8,16 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Kismet/GameplayStatics.h"
-#include "Math/Vector.h"
+//#include "DrawDebugHelpers.h"
+//#include "Math/Vector.h"
 
 AEnemyFlyingAI::AEnemyFlyingAI()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bCanSeePlayer = false;
 	bIsRally = false;
+	CurrentState = AIState::Scan;
+	Params = FCollisionQueryParams(FName(TEXT("Trace")), true, this);
 }
 
 void AEnemyFlyingAI::BeginPlay()
@@ -22,7 +25,6 @@ void AEnemyFlyingAI::BeginPlay()
 	Super::BeginPlay();
 	//GetRandomLocations();
 	
-	CurrentState = AIState::Scan;
 }
 
 
@@ -31,46 +33,32 @@ void AEnemyFlyingAI::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	// ...
-	FHitResult Hit(ForceInit);
-	FCollisionQueryParams Params = FCollisionQueryParams(FName(TEXT("Trace")), true, this);
-	switch(CurrentState)
-	{
-		case AIState::Scan:
-		if(GetActorRotation() == ScanDirection)
-		{
-			//Rayscan Forward
-			bool OutHit = DoTrace(&Hit, &Params);
-			if(!OutHit)
-			{
-				//Ray End Point
-				PatrolToLocation = GetActorLocation() + (GetActorRotation().Vector() * MaxTraceDistance);
-			}
-
-			// Check for distance between the AI and its end point if far enough
-			if(FVector::Dist(PatrolToLocation, GetActorLocation()) > ObstacleAvoidDistance)
-			{
-				CurrentState = AIState::Patrol;
-				break;
-			}
-		}
-	}
+	
 }
 
 //FVector::Dist returns the Distance between 2 vector points
 
-bool AEnemyFlyingAI::DoTrace(FHitResult* Hit, FCollisionQueryParams* Params)
+bool AEnemyFlyingAI::DoTrace(FHitResult TheHit) //FHitResult* TheHit, FCollisionQueryParams* TheParams
 {
+	const FName TraceTag("AITraceTag");
+	GetWorld()->DebugDrawTraceTag = TraceTag;
 	FVector Loc = GetActorLocation();
-	FRotator Rot = GetActorRotation();
+	FRotator Rot = GetActorRotation(); //Rot.Vector()
 	FVector Start = Loc; 
-	FVector End = Loc + (Rot.Vector() * MaxTraceDistance);
-	Params->bTraceComplex = true;
-	//Params->bTraceAsyncScene  = true;
-	Params->bReturnPhysicalMaterial = true;
-	bool Traced = GetWorld()->LineTraceSingleByChannel
+	FVector End = Loc + (GetActorForwardVector() * MaxTraceDistance);
+	// TheParams->bTraceComplex = true;
+	// //Params->bTraceAsyncScene  = true;
+	// TheParams->bReturnPhysicalMaterial = true;
+	// TheParams->TraceTag = TraceTag;
+	TArray<AActor*> ToIgnore;
+	bool Traced = UKismetSystemLibrary::SphereTraceSingle
 	(
-		*Hit, Start, End, ECC_Visibility, *Params
+		this, Start, End, 20.0f, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForOneFrame, TheHit, true 
 	);
+	// bool Traced = GetWorld()->LineTraceSingleByChannel
+	// (
+	// 	*TheHit, Start, End, ECC_Visibility, *TheParams
+	// );
 	return Traced;
 }
 
@@ -99,20 +87,51 @@ void AEnemyFlyingAI::GatherAboveHive()
 
 void AEnemyFlyingAI::Patrol()
 {
-	//Generate a Random Location around the Hive
-	//FVector RandomLoc = SpawnedHive->GetActorLocation();
- 	// RandomLoc.X = FMath::FRandRange(-10, 10);
- 	// RandomLoc.Y = FMath::FRandRange(-10, 10);
- 	// RandomLoc.Z = FMath::FRandRange(-10, 10);
+	FHitResult Hit(ForceInit);
+	TArray<AActor*> ToIgnore;
+	FVector Start = GetActorLocation(); 
+	FVector End = GetActorLocation() + (GetActorForwardVector() * MaxTraceDistance);
+	switch(CurrentState)
+	{
+		case AIState::Scan:
+		if(GetActorRotation() == ScanDirection)
+		{
+			//Rayscan Forward
+			// bool Trace = DoTrace(Hit);
+			UKismetSystemLibrary::SphereTraceSingle
+			(
+				this, Start, End, 20.0f, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForDuration, Hit, true 
+			);
 
-	// //Get the Direction to the RandomLoc
-	// for(int i = 0; i < RandomLocations.Num(); i++)
-	// {	//Get random locations every tick 
-	// FVector DistanceToRandomLocation = RandomLocations[FMath::FRandRange(0, RandomLocations.Num()-1)] - GetActorLocation();
-	// // Move towards random locations
-	// AddMovementInput(DistanceToRandomLocation, 1.0f, true);
-	// }
+			//Set PatrolToLocation = Ray End Point if trace not hit anything
+			if(!Hit.bBlockingHit)
+			{
+				PatrolToLocation = GetActorLocation() + (GetActorForwardVector() * MaxTraceDistance);
+			}
 
+			// Check for distance between the AI and its end point if far enough
+			if(FVector::Dist(PatrolToLocation, GetActorLocation()) > ObstacleAvoidDistance)
+			{
+				CurrentState = AIState::Patrol;
+				break;
+			}
+			//Get New Random Direction
+			ScanDirection = UKismetMathLibrary::RandomRotator();
+		}
+		//Slowly rotate and face towards scan direction
+		RotateToScanDirection = FMath::RInterpTo(GetActorRotation(), ScanDirection, UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 20.0);
+		SetActorRotation(RotateToScanDirection);
+		break; //End Case
+
+		case AIState::Patrol:
+		//Move towards new patrol point
+		AddMovementInput(PatrolToLocation, 1.0f, true);
+		if(FVector::Dist(PatrolToLocation, GetActorLocation()) <= ObstacleAvoidDistance)
+		{
+			CurrentState = AIState::Scan;
+		}
+		break;
+	}
 }
 
 bool AEnemyFlyingAI::CanSeePlayer()
