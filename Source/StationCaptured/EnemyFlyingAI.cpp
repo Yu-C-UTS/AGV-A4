@@ -89,43 +89,53 @@ void AEnemyFlyingAI::Patrol()
 {
 	FHitResult Hit(ForceInit);
 	TArray<AActor*> ToIgnore;
+	ToIgnore.Add(GetOwner());
 	FVector Start = GetActorLocation(); 
 	FVector End = GetActorLocation() + (GetActorForwardVector() * MaxTraceDistance);
 	switch(CurrentState)
 	{
 		case AIState::Scan:
-		if(GetActorRotation() == ScanDirection)
+
+		//Slowly rotate and face towards scan direction
+		UE_LOG(LogTemp, Warning, TEXT("Rotating, From: %s, To: %s, Current: %s"), *OldRotation.ToString(), *ScanDirection.ToString(), *GetActorRotation().ToString());
+		RotationLerp = FMath::Clamp(RotationLerp + (GetWorld()->DeltaTimeSeconds / 2), 0.0f, 1.0f);
+		SetActorRotation(FQuat::Slerp(OldRotation.Quaternion(), ScanDirection.Quaternion(), RotationLerp));
+		//RotateToScanDirection = FMath::RInterpTo(GetActorRotation(), ScanDirection, UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 0.5);
+		//SetActorRotation(RotateToScanDirection);
+
+		//If unit has completed rotation, plan to rotate to look at a new direction
+		if (FMath::IsNearlyEqual(FVector::DotProduct(GetActorForwardVector(), ScanDirection.Vector()), 1.0f, 0.05f))
 		{
+			OldRotation = GetActorRotation();
+			RotationLerp = 0;
+			ScanDirection = UKismetMathLibrary::RandomRotator();
+			UE_LOG(LogTemp, Warning, TEXT("New Rotation"));
+
 			//Rayscan Forward
 			// bool Trace = DoTrace(Hit);
 			UKismetSystemLibrary::SphereTraceSingle
 			(
 				this, Start, End, 20.0f, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForDuration, Hit, true 
 			);
+			//UE_LOG(LogTemp, Warning, TEXT("Tracing"));
 
-			//Set PatrolToLocation = Ray End Point if trace not hit anything
-			if(!Hit.bBlockingHit)
+			//If raycast hit something, don't move forward
+			if(Hit.bBlockingHit)
 			{
-				PatrolToLocation = GetActorLocation() + (GetActorForwardVector() * MaxTraceDistance);
-			}
-
-			// Check for distance between the AI and its end point if far enough
-			if(FVector::Dist(PatrolToLocation, GetActorLocation()) > ObstacleAvoidDistance)
-			{
-				CurrentState = AIState::Patrol;
 				break;
 			}
-			//Get New Random Direction
-			ScanDirection = UKismetMathLibrary::RandomRotator();
+
+			//If the forward direction is clear and unit should move forward
+			PatrolToLocation = End;
+			CurrentState = AIState::Patrol;
+				//break;
 		}
-		//Slowly rotate and face towards scan direction
-		RotateToScanDirection = FMath::RInterpTo(GetActorRotation(), ScanDirection, UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 20.0);
-		SetActorRotation(RotateToScanDirection);
+
 		break; //End Case
 
 		case AIState::Patrol:
 		//Move towards new patrol point
-		AddMovementInput(PatrolToLocation, 1.0f, true);
+		AddMovementInput(GetActorForwardVector(), 1.0f, true);
 		if(FVector::Dist(PatrolToLocation, GetActorLocation()) <= ObstacleAvoidDistance)
 		{
 			CurrentState = AIState::Scan;

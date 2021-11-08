@@ -86,6 +86,8 @@ private:
 	const float SightDistance = 1500.0f;
 
 	FCollisionQueryParams Params;
+	FRotator OldRotation;
+	float RotationLerp;
 	FRotator ScanDirection;
 	int TotalScanDirectionCount;
 	int CurrentScanDirectionCount;
