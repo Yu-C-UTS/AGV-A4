@@ -38,6 +38,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	float Acceleration;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool bIsBreaking;
+
 private:
 	float CurrentSpeed;
 
@@ -49,7 +52,7 @@ private:
 	void Yaw(float Value);
 	void Roll(float Value);
 
-	bool bIsBreaking;
+	
 	void BreakToggle();
 	void BreakStart();
 	void BreakEnd();

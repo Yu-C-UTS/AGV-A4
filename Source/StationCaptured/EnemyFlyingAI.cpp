@@ -137,7 +137,7 @@ void AEnemyFlyingAI::Patrol()
 
 		case AIState::Patrol:
 		//Move towards new patrol point
-		AddMovementInput(GetActorForwardVector(), 1.0f, true);
+		AddMovementInput(PatrolToLocation - GetActorLocation(), 1.0f, true);
 		if(FVector::Dist(PatrolToLocation, GetActorLocation()) <= ObstacleAvoidDistance)
 		{
 			CurrentState = AIState::Scan;
@@ -232,10 +232,10 @@ void AEnemyFlyingAI::GatherWithAlly()
 	// FVector End = GetActorLocation() + (GetActorForwardVector() * MaxTraceDistance);
 	// //PatrolToLocation = End;
 	// FVector ScanDirectionVector;
-	// ScanDirection = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), UnitToChase->GetActorLocation());
-	// if(Ally && FVector::Dist(PatrolToLocation, GetActorLocation()) <= ObstacleAvoidDistance)
+	// if(Ally && Ally->UnitToChase && FVector::Dist(PatrolToLocation, GetActorLocation()) <= ObstacleAvoidDistance)
 	// {
 	// 	//Slowly rotate and face towards scan direction
+	// 	ScanDirection = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Ally->UnitToChase->GetActorLocation());
 	// 	UE_LOG(LogTemp, Warning, TEXT("Rotating, From: %s, To: %s, Current: %s"), *OldRotation.ToString(), *ScanDirection.ToString(), *GetActorRotation().ToString());
 	// 	RotationLerp = FMath::Clamp(RotationLerp + (GetWorld()->DeltaTimeSeconds / 2), 0.0f, 1.0f);
 	// 	SetActorRotation(FQuat::Slerp(OldRotation.Quaternion(), ScanDirection.Quaternion(), RotationLerp));
@@ -267,7 +267,7 @@ void AEnemyFlyingAI::GatherWithAlly()
 			
 	// 		//Move towards new patrol point
 	// 		PatrolToLocation = End;
-	// 		AddMovementInput(GetActorForwardVector(), 1.0f, true);
+	// 		AddMovementInput(PatrolToLocation - GetActorLocation(), 1.0f, true);
 	// 		//CurrentState = AIState::Patrol;
 	// 			//break;
 	// 	}
@@ -275,6 +275,11 @@ void AEnemyFlyingAI::GatherWithAlly()
 	// 	return; //End Case
 	// }	
 	{
+		if(!bIsRally)
+		{	
+			return;
+		}
+
 		if(Ally)
 		{
 		// SetActorLocation(Ally->GetActorLocation() + (-100.0f,-100.0f,-100.0f));
@@ -285,10 +290,11 @@ void AEnemyFlyingAI::GatherWithAlly()
 		FRotator AllyLookAtRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Ally->GetActorLocation());
 		FRotator Rotation = FMath::RInterpTo(GetActorRotation(), AllyLookAtRot, UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 20.0);
 		SetActorRotation(Rotation);
+		CanSeePlayer();
 		//bIsRally = false;
 		}
-		bCanSeePlayer = false;
 		bIsRally = false;
+		CurrentState = AIState::Scan;
 	}
 }
 
