@@ -16,16 +16,28 @@ class STATIONCAPTURED_API USectorGenerationData : public UDataAsset
 	
 public:
 	UPROPERTY(EditAnywhere)
-	int SectorLength;
+		int MinSectorLength;
 	UPROPERTY(EditAnywhere)
-	int SectorWidth;
-	UPROPERTY(EditAnywhere)
-	int SectorHeight;
+		int MaxSectorLength;
 
 	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<class ASectorPiece>> AvalibleFloorPieces;	
+		int MinSectorHeight;
 	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<class ASectorPiece>> AvalibleWallPieces;	
-	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<class ASectorPiece>> AvalibleBuildingPieces;
+		int MaxSectorHeight;
+
+	UPROPERTY(EditAnywhere, Category = "Basic Pieces")
+		TArray<TSubclassOf<class ASectorPiece>> AvalibleFloorPieces;
+	UPROPERTY(EditAnywhere, Category = "Basic Pieces")
+		TArray<TSubclassOf<class ASectorPiece>> AvalibleWallPieces;
+	UPROPERTY(EditAnywhere, Category = "Basic Pieces")
+		TArray<TSubclassOf<class ASectorPiece>> AvalibleRoofPieces;
+	UPROPERTY(EditAnywhere, Category = "Basic Pieces")
+		TArray<TSubclassOf<class AStructureSectorPiece>> AvalibleStructurePieces;
+
+	UPROPERTY(EditAnywhere, Category = "Connection Pieces")
+		TArray<TSubclassOf<class ASectorPiece>> AvalibleFloorConnectionPieces;
+	UPROPERTY(EditAnywhere, Category = "Connection Pieces")
+		TArray<TSubclassOf<class ASectorPiece>> AvalibleWallConnectionPieces;
+	UPROPERTY(EditAnywhere, Category = "Connection Pieces")
+		TArray<TSubclassOf<class ASectorPiece>> AvalibleRoofConnectionPieces;
 };

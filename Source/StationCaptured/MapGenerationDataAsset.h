@@ -17,6 +17,6 @@ class STATIONCAPTURED_API UMapGenerationDataAsset : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AMapGenerator> MainMapGenerator;
-	UPROPERTY(EditDefaultsOnly)
-	TArray<TSubclassOf<class AMapPiece>> AvalibleGeneralMapPieces;
+	//UPROPERTY(EditDefaultsOnly)
+	//TArray<TSubclassOf<class AMapPiece>> AvalibleGeneralMapPieces;
 };

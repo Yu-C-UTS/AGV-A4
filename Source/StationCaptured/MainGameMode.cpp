@@ -22,9 +22,11 @@ void AMainGameMode::InitGame(const FString& MapName, const FString& Options, FSt
 	}
 	MapGenerator = GetWorld()->SpawnActor<AMapGenerator>(MapGenerationData->MainMapGenerator);
 
-	if (MapGenerationData->AvalibleGeneralMapPieces.Num() < 1)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("No General Map Piece Assigned in Map Generation Data, ignore if this is intended."));
-	}
-	MapGenerator->AvaliableMapPieces = MapGenerationData->AvalibleGeneralMapPieces;
+	//if (MapGenerationData->AvalibleGeneralMapPieces.Num() < 1)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("No General Map Piece Assigned in Map Generation Data, ignore if this is intended."));
+	//}
+	//MapGenerator->AvaliableMapPieces = MapGenerationData->AvalibleGeneralMapPieces;
+
+	MapGenerator->InitializeMap();
 }

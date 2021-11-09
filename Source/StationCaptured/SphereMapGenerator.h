@@ -25,6 +25,8 @@ public:
 	int Radius;
 	UPROPERTY(EditDefaultsOnly)
 	float SectorSize;
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TSubclassOf<AMapPiece>> AvaliableMapPieces;
 
 public:
 	virtual void InitializeMap() override;
