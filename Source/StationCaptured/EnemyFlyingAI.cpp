@@ -8,6 +8,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Math/UnrealMathUtility.h"
 #include "Kismet/GameplayStatics.h"
+//#include "Math/UnrealMathVectorCommon.h"
 //#include "DrawDebugHelpers.h"
 //#include "Math/Vector.h"
 
@@ -18,6 +19,7 @@ AEnemyFlyingAI::AEnemyFlyingAI()
 	bIsRally = false;
 	CurrentState = AIState::Scan;
 	Params = FCollisionQueryParams(FName(TEXT("Trace")), true, this);
+	SphereTraceRadius = 50.0f;
 }
 
 void AEnemyFlyingAI::BeginPlay()
@@ -115,7 +117,7 @@ void AEnemyFlyingAI::Patrol()
 			// bool Trace = DoTrace(Hit);
 			UKismetSystemLibrary::SphereTraceSingle
 			(
-				this, Start, End, 20.0f, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForDuration, Hit, true 
+				this, Start, End, SphereTraceRadius, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForDuration, Hit, true 
 			);
 			//UE_LOG(LogTemp, Warning, TEXT("Tracing"));
 
@@ -223,18 +225,69 @@ bool AEnemyFlyingAI::IsRally()
 
 void AEnemyFlyingAI::GatherWithAlly()
 {
+	// FHitResult Hit(ForceInit);
+	// TArray<AActor*> ToIgnore;
+	// ToIgnore.Add(GetOwner());
+	// FVector Start = GetActorLocation(); 
+	// FVector End = GetActorLocation() + (GetActorForwardVector() * MaxTraceDistance);
+	// //PatrolToLocation = End;
+	// FVector ScanDirectionVector;
+	// ScanDirection = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), UnitToChase->GetActorLocation());
+	// if(Ally && FVector::Dist(PatrolToLocation, GetActorLocation()) <= ObstacleAvoidDistance)
+	// {
+	// 	//Slowly rotate and face towards scan direction
+	// 	UE_LOG(LogTemp, Warning, TEXT("Rotating, From: %s, To: %s, Current: %s"), *OldRotation.ToString(), *ScanDirection.ToString(), *GetActorRotation().ToString());
+	// 	RotationLerp = FMath::Clamp(RotationLerp + (GetWorld()->DeltaTimeSeconds / 2), 0.0f, 1.0f);
+	// 	SetActorRotation(FQuat::Slerp(OldRotation.Quaternion(), ScanDirection.Quaternion(), RotationLerp));
+
+	// 	//If unit has completed rotation, plan to rotate to look at a new direction
+	// 	if (FMath::IsNearlyEqual(FVector::DotProduct(GetActorForwardVector(), ScanDirection.Vector()), 1.0f, 0.05f))
+	// 	{
+	// 		OldRotation = GetActorRotation();
+	// 		RotationLerp = 0;
+	// 		ScanDirectionVector = FMath::Lerp(UKismetMathLibrary::RandomUnitVector(), ScanDirection.Vector(), FMath::Sqrt(GatherAvoidOffset));
+	// 		ScanDirection = ScanDirectionVector.Rotation();
+	// 		UE_LOG(LogTemp, Warning, TEXT("New Rotation"));
+
+	// 		//Rayscan Forward
+	// 		// bool Trace = DoTrace(Hit);
+	// 		UKismetSystemLibrary::SphereTraceSingle
+	// 		(
+	// 			this, Start, End, SphereTraceRadius, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForDuration, Hit, true 
+	// 		);
+	// 		//UE_LOG(LogTemp, Warning, TEXT("Tracing"));
+
+	// 		//If raycast hit something, don't move forward
+	// 		if(Hit.bBlockingHit)
+	// 		{
+	// 			return;
+	// 		}
+
+	// 		//If the forward direction is clear and unit should move forward
+			
+	// 		//Move towards new patrol point
+	// 		PatrolToLocation = End;
+	// 		AddMovementInput(GetActorForwardVector(), 1.0f, true);
+	// 		//CurrentState = AIState::Patrol;
+	// 			//break;
+	// 	}
+
+	// 	return; //End Case
+	// }	
 	{
 		if(Ally)
 		{
-		CanSeePlayer();
 		// SetActorLocation(Ally->GetActorLocation() + (-100.0f,-100.0f,-100.0f));
 		// SetActorRotation(Ally->GetActorRotation());
 		//bIsRally = false;
 		FVector DistanceToAlly = Ally->GetActorLocation() - GetActorLocation();
 		AddMovementInput(DistanceToAlly,1.0f,true);
+		FRotator AllyLookAtRot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Ally->GetActorLocation());
+		FRotator Rotation = FMath::RInterpTo(GetActorRotation(), AllyLookAtRot, UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 20.0);
+		SetActorRotation(Rotation);
 		//bIsRally = false;
 		}
-		else GatherAboveHive();
+		bCanSeePlayer = false;
 		bIsRally = false;
 	}
 }

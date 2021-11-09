@@ -78,6 +78,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float ObstacleAvoidDistance;
 
+	UPROPERTY(EditAnywhere)
+	float SphereTraceRadius;
+	
+	UPROPERTY(EditAnywhere)
+	float GatherAvoidOffset;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIState)
 	AIState CurrentState;
 
@@ -93,6 +99,7 @@ private:
 	int CurrentScanDirectionCount;
 	FVector PatrolToLocation;
 	FRotator RotateToScanDirection;
+
 
 	//Ray Trace
 	//bool DoTrace(FHitResult* Hit, FCollisionQueryParams* Params);
