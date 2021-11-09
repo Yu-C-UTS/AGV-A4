@@ -4,18 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MapPiece.h"
-#include "ConnectionPoint.h"
-#include "MapGenerator.generated.h"
+#include "StructurePiece.generated.h"
 
 UCLASS()
-class STATIONCAPTURED_API AMapGenerator : public AActor
+class STATIONCAPTURED_API AStructurePiece : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMapGenerator();
+	AStructurePiece();
 
 protected:
 	// Called when the game starts or when spawned
@@ -25,10 +23,4 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-public:
-	virtual void InitializeMap();
-
-protected:
-	TArray<UConnectionPoint*> OpenConnectionPoints;
-	virtual AMapPiece* SpawnNewPiece(TSubclassOf<AMapPiece> MapPieceToSpawn, FVector SpawnLocation, FRotator SpawnRotation);
 };

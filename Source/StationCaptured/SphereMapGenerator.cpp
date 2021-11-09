@@ -14,7 +14,7 @@ void ASphereMapGenerator::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitializeMap();
+	//InitializeMap();
 }
 
 void ASphereMapGenerator::InitializeMap()
@@ -36,8 +36,7 @@ void ASphereMapGenerator::InitializeMap()
 				//UE_LOG(LogTemp, Warning, TEXT("X:%i Y:%i Z:%i, Radius: %f"), x, y, z, FMath::Sqrt(FMath::Square(x) + FMath::Square(y) + FMath::Square(z)));
 				if (FMath::Sqrt(FMath::Square(x) + FMath::Square(y) + FMath::Square(z)) < Radius)
 				{
-					AMapPiece* SpawnedMapPiece = GetWorld()->SpawnActor<AMapPiece>(AvaliableMapPieces[FMath::RandRange(0, AvaliableMapPieces.Num() - 1)], GetActorLocation() + FVector(x * SectorSize, y * SectorSize, z * SectorSize), GetActorRotation());
-					SpawnedMapPiece->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+					AMapPiece* SpawnedMapPiece = SpawnNewPiece(AvaliableMapPieces[FMath::RandRange(0, AvaliableMapPieces.Num() - 1)], GetActorLocation() + FVector(x * SectorSize, y * SectorSize, z * SectorSize), GetActorRotation());
 					MapPieceMap.Add(FIntVector(x, y, z), SpawnedMapPiece);
 					SpawnedMapPiece->Initialize();
 				}
