@@ -60,7 +60,7 @@ private:
 
 protected:
 	UFUNCTION(Server,Reliable)
-	void ServerMove(FVector NewLocation);
+	void ServerMove(FVector NewLocation, FVector Velocity);
 	UFUNCTION(Server, Reliable)
 	void ServerRotate(FRotator NewRotation);
 };

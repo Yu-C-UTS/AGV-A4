@@ -66,7 +66,7 @@ void APlayerUnitCore::Forward(float Value)
 	//}
 	//CurrentSpeed = FMath::Clamp(CurrentSpeed + Acceleration * Value * GetWorld()->GetDeltaSeconds(), -MaxSpeed, MaxSpeed);
 	AddMovementInput(GetActorForwardVector(), Value);
-	ServerMove(GetActorLocation());
+	ServerMove(GetActorLocation(), GetMovementComponent()->Velocity);
 	//GetMovementComponent()->AddInputVector(GetActorForwardVector() * Value);
 }
 
@@ -78,7 +78,7 @@ void APlayerUnitCore::Strafe(float Value)
 	//}
 	//CurrentSpeed = FMath::Clamp(CurrentSpeed + Acceleration * Value * GetWorld()->GetDeltaSeconds(), -MaxSpeed, MaxSpeed);
 	AddMovementInput(GetActorRightVector(), Value);
-	ServerMove(GetActorLocation());
+	ServerMove(GetActorLocation(), GetMovementComponent()->Velocity);
 	//GetMovementComponent()->AddInputVector(GetActorRightVector() * Value);
 }
 
@@ -90,7 +90,7 @@ void APlayerUnitCore::Up(float Value)
 	//}
 	//CurrentSpeed = FMath::Clamp(CurrentSpeed + Acceleration * Value * GetWorld()->GetDeltaSeconds(), -MaxSpeed, MaxSpeed);
 	AddMovementInput(GetActorUpVector(), Value);
-	ServerMove(GetActorLocation());
+	ServerMove(GetActorLocation(), GetMovementComponent()->Velocity);
 	//GetMovementComponent()->AddInputVector(GetActorUpVector() * Value);
 }
 
@@ -138,9 +138,10 @@ void APlayerUnitCore::BreakEnd()
 	bIsBreaking = false;
 }
 
-void APlayerUnitCore::ServerMove_Implementation(FVector NewLocation)
+void APlayerUnitCore::ServerMove_Implementation(FVector NewLocation, FVector Velocity)
 {
 	SetActorLocation(NewLocation);
+	GetMovementComponent()->Velocity = Velocity;
 }
 
 void APlayerUnitCore::ServerRotate_Implementation(FRotator NewRotation)
