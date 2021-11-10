@@ -53,7 +53,7 @@ void AMainGameMode::Tick(float DeltaTime)
 	{
 		if (ActiveHives.Num() <= 0)
 		{
-			GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Blue, "All Hives Destroyed");
+			GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Blue, "All Hives Destroyed, YOU WIN!!");
 		}
 		else
 		{

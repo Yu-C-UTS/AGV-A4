@@ -12,6 +12,10 @@ AHive::AHive()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SpawnInterval = 5.0f;
+
+	SetReplicates(true);
+	NetDormancy = ENetDormancy::DORM_Initial;
+
 }
 
 // Called when the game starts or when spawned
@@ -47,7 +51,6 @@ void AHive::TickSpawnUnit(float DeltaTime)
 		SpawnCooldown -= DeltaTime;
 		return;
 	}
-	FVector Test (500,500,500);
 	//Spawn the enemy
 	if(ActiveChildUnits.Num() < MaximumSpawn)
 	{ //SpawnPointOverride ? SpawnPointOverride->GetComponentLocation() : GetActorLocation()
