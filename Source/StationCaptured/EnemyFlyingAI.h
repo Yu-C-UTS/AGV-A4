@@ -84,12 +84,17 @@ public:
 	UPROPERTY(EditAnywhere)
 	float GatherAvoidOffset;
 
+	UPROPERTY(EditAnywhere)
+	float FollowingDistance = 3000.0f;
+	
+	UPROPERTY(EditAnywhere)
+	float SightDistance = 1500.0f;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIState)
 	AIState CurrentState;
 
 private:
-	const float FollowingDistance = 3000.0f;
-	const float SightDistance = 1500.0f;
+
 
 	FCollisionQueryParams Params;
 	FRotator OldRotation;
