@@ -6,6 +6,7 @@
 
 void AStructureSectorPiece::InitializeSectorPiece()
 {
+	ASectorPiece::InitializeSectorPiece();
 	//GenerateStructure();
 }
 
@@ -13,7 +14,7 @@ void AStructureSectorPiece::GenerateStructure(int DesiredHeight)
 {
 	if (!StructureGenerationDataAsset)
 	{
-		UE_LOG(LogTemp, Error, TEXT("No structure generation data assigned, aborting generation"));
+		UE_LOG(LogTemp, Warning, TEXT("No structure generation data assigned, aborting generation"));
 		return;
 	}
 	if (StructureGenerationDataAsset->AvalibleStructurePieces.Num() <= 0)
