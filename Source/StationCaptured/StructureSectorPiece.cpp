@@ -42,7 +42,16 @@ void AStructureSectorPiece::GenerateStructure(int DesiredHeight)
 
 	for (int i = 0; i < GenerateHeight; i++)
 	{
-		AStructurePiece* SpawnedPiece = GetWorld()->SpawnActor<AStructurePiece>(StructureGenerationDataAsset->AvalibleStructurePieces[FMath::RandRange(0, StructureGenerationDataAsset->AvalibleStructurePieces.Num() - 1)], FVector(GetActorLocation().X, GetActorLocation().Y, i * 500 + 20 + GetActorLocation().Z), FRotator::ZeroRotator);
+		FRotator SpawnRotation;
+		if (StructureGenerationDataAsset->AllowRotation)
+		{
+			SpawnRotation = FRotator(0, 90 * FMath::RandRange(0, 3), 0);
+		}
+		else
+		{
+			SpawnRotation = FRotator::ZeroRotator;
+		}
+		AStructurePiece* SpawnedPiece = GetWorld()->SpawnActor<AStructurePiece>(StructureGenerationDataAsset->AvalibleStructurePieces[FMath::RandRange(0, StructureGenerationDataAsset->AvalibleStructurePieces.Num() - 1)], FVector(GetActorLocation().X, GetActorLocation().Y, i * 500 + 20 + GetActorLocation().Z),SpawnRotation);
 		SpawnedPiece->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
 	}
 }

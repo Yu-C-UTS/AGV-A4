@@ -20,5 +20,8 @@ public:
 	int MaxHeight; //Fill in 0 if max structure height is not enforced for this structure
 
 	UPROPERTY(EditAnywhere)
+	bool AllowRotation;
+
+	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<AStructurePiece>> AvalibleStructurePieces;
 };
