@@ -27,5 +27,6 @@ void ASectorPiece::Tick(float DeltaTime)
 
 void ASectorPiece::InitializeSectorPiece()
 {
+	BPInitializeSectorPiece();
 }
 

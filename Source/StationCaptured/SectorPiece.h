@@ -25,4 +25,8 @@ public:
 
 public:
 	virtual void InitializeSectorPiece();
+
+protected:
+	UFUNCTION(BlueprintImplementableEvent)
+	void BPInitializeSectorPiece();
 };

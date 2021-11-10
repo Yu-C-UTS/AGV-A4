@@ -15,7 +15,7 @@ class STATIONCAPTURED_API AStructureSectorPiece : public ASectorPiece
 {
 	GENERATED_BODY()
 	
-protected:
+public:
 	virtual void InitializeSectorPiece() override;
 
 public:

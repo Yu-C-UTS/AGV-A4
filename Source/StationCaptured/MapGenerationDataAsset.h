@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "Hive.h"
 #include "MapGenerationDataAsset.generated.h"
 
 /**
@@ -17,6 +18,8 @@ class STATIONCAPTURED_API UMapGenerationDataAsset : public UDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AMapGenerator> MainMapGenerator;
+	UPROPERTY(EditDefaultsOnly)
+	TMap<TSubclassOf<AHive>, int> HiveSpawnCount;
 	//UPROPERTY(EditDefaultsOnly)
 	//TArray<TSubclassOf<class AMapPiece>> AvalibleGeneralMapPieces;
 };

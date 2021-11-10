@@ -31,6 +31,7 @@ ASectorPiece* ASectorMapPiece::CreateNewSectorPiece(TSubclassOf<ASectorPiece> Pi
 
 	ASectorPiece* SpawnedPiece = GetWorld()->SpawnActor<ASectorPiece>(PieceToSpawn, SpawnLocation, SpawnRotation);
 	SpawnedPiece->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+	SpawnedPiece->InitializeSectorPiece();
 
 	//Find and register all ConnectionPoint components in the new sub-piece
 	TSet<UActorComponent*> ActorComponents = SpawnedPiece->GetComponents();
@@ -194,8 +195,10 @@ void ASectorMapPiece::PopulateCells()
 			{
 				continue;
 			}
-			AStructureSectorPiece* SpawnedStructure = GetWorld()->SpawnActor<AStructureSectorPiece>(SectorGenerationData->AvalibleStructurePieces[GenerateStructureIndex], FVector(y * 1500 + 750, x * 1500 + 750, 0), FRotator::ZeroRotator);
-			SpawnedStructure->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+			AStructureSectorPiece* SpawnedStructure = Cast<AStructureSectorPiece>(CreateNewSectorPiece(SectorGenerationData->AvalibleStructurePieces[GenerateStructureIndex], FVector(y * 1500 + 750, x * 1500 + 750, 0), FRotator::ZeroRotator));
+			//AStructureSectorPiece* SpawnedStructure = GetWorld()->SpawnActor<AStructureSectorPiece>(SectorGenerationData->AvalibleStructurePieces[GenerateStructureIndex], FVector(y * 1500 + 750, x * 1500 + 750, 0), FRotator::ZeroRotator);
+			//SpawnedStructure->AttachToActor(this, FAttachmentTransformRules::KeepWorldTransform);
+			//SpawnedStructure->InitializeSectorPiece();
 			SpawnedStructure->GenerateStructure(FMath::RandRange(1, SectorHeight));
 		}
 	}

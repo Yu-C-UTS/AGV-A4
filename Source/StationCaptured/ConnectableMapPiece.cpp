@@ -10,6 +10,8 @@ AConnectableMapPiece::AConnectableMapPiece()
 
 void AConnectableMapPiece::Initialize()
 {
+	AMapPiece::Initialize();
+
 	for (UActorComponent* Component : this->GetComponents())
 	{
 		if (Component->IsA<UConnectionPoint>())
