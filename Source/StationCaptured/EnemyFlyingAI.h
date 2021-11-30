@@ -85,10 +85,10 @@ public:
 	float GatherAvoidOffset;
 
 	UPROPERTY(EditAnywhere)
-	float FollowingDistance = 3000.0f;
+	float FollowingDistance = 2000.0f;
 	
 	UPROPERTY(EditAnywhere)
-	float SightDistance = 1500.0f;
+	float SightDistance = 1000.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIState)
 	AIState CurrentState;

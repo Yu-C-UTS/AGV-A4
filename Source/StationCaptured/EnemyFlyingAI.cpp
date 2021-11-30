@@ -117,7 +117,7 @@ void AEnemyFlyingAI::Patrol()
 			// bool Trace = DoTrace(Hit);
 			UKismetSystemLibrary::SphereTraceSingle
 			(
-				this, Start, End, SphereTraceRadius, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::ForDuration, Hit, true 
+				this, Start, End, SphereTraceRadius, UEngineTypes::ConvertToTraceType(ECC_Visibility), true, ToIgnore, EDrawDebugTrace::None, Hit, true 
 			);
 			//UE_LOG(LogTemp, Warning, TEXT("Tracing"));
 
